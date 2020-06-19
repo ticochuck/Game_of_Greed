@@ -77,7 +77,23 @@ class GameLogic:
 # Handle banking points
 # Define a Banker class
 class Banker:
-    pass
+
+    shelf_points = 0
+    bank_points = 0
+
+    def __init__(self):
+        pass
+
+    def shelf(self, points):
+        self.shelf_points += points
+
+    def bank(self):
+        self.bank_points += self.shelf_points
+        self.clear_shelf()
+
+    def clear_shelf(self):
+        self.shelf_points = 0
+
 
 # Add a shelf instance method
 # Input to shelf is the amount of points (integer) to add to shelf.

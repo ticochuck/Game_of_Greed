@@ -231,13 +231,45 @@ def test_two_triplets():
     assert GameLogic.calculate_score((3,2,2,3,2,3)) == 500
 
 
-
 # Testing - Banker
 # shelf should properly track unbanked points
 
+def test_shelf_return():
+    test_banker = Banker()
+    test_banker.shelf(1000)
+    test_points = test_banker.shelf_points
+    assert test_points == 1000
+
 # bank should properly add unbanked points to total and return the deposited amount
 
+def test_bank():
+    test_banker = Banker()
+    test_banker.shelf(1000)
+    test_banker.bank()
+    assert test_banker.bank_points == 1000
+    assert test_banker.shelf_points == 0
+
 # clear_shelf
+
+def test_clear_shelf_and_keep_bank():
+    test_banker = Banker()
+    test_banker.shelf(1000)
+    test_banker.bank()
+    test_banker.clear_shelf()
+    assert test_banker.shelf_points == 0
+    assert test_banker.bank_points == 1000
+
+# combined methods tests
+
+def test_add_to_shelf():
+    test_banker = Banker()
+    test_banker.shelf(1000)
+    test_banker.shelf(400)
+    test_points = test_banker.shelf_points
+    assert test_points == 1400
+
+
 # should remove any unbanked points, resetting to zero.
 # should not affect previously banked points
+
 
