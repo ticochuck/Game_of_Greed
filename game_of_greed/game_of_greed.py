@@ -24,13 +24,14 @@ class GameLogic:
 # Handle calculating score for dice roll
 # Add calculate_score static method to GameLogic class.
 # The input to calculate_score is a tuple of integers that represent a dice roll.
-# The output from calculate_score is an integer representing the roll’s score according to rules of game.
+# The output from calculate_score is an integer representing the roll's score according to rules of game.
     @staticmethod
     def calculate_score(dice_set):
         ctr = Counter(dice_set)
-        first_key_of_ctr = list(ctr.keys())[0]
+        first_key_of_ctr = list(ctr.most_common())[0][0]
         if len(ctr) >= 2:
-            second_key_of_ctr = list(ctr.keys())[1]
+            second_key_of_ctr = list(ctr.most_common())[1][0]
+        first_value_of_ctr = list(ctr.most_common())[0][1]
         ones_score = 0
         fives_score = 0
         for x in ctr.keys():
@@ -41,36 +42,36 @@ class GameLogic:
         leftovers = ones_score + fives_score
         if len(ctr) == 6:
             return 1500
-        if len(ctr) == 3 and ctr[2] == 2:
+        if len(ctr) == 3 and list(ctr.most_common())[2][1] == 2:
             return 1500
         if len(ctr) == 1:
             if first_key_of_ctr == 1:
                 return 4000 + leftovers
             else:
                 return first_key_of_ctr * 400 + leftovers
-        if len(ctr) == 2 and ctr[0] == 5:
+        if len(ctr) == 2 and first_value_of_ctr == 5:
             if first_key_of_ctr == 1:
                 return 3000 + leftovers
             else:
                 return first_key_of_ctr * 300 + leftovers
-        if ctr[0] == 4:
+        if first_value_of_ctr == 4:
             if first_key_of_ctr == 1:
                 return 2000 + leftovers
             else:
                 return first_key_of_ctr * 200 + leftovers
-        if len(ctr) == 2 and ctr[0] == 3:
+        if len(ctr) == 2 and first_value_of_ctr == 3:
             if first_key_of_ctr == 1:
                 return 1000 + (second_key_of_ctr * 100)
             elif second_key_of_ctr == 1:
                 return 1000 + first_key_of_ctr * 100
             else:
                 return (first_key_of_ctr * 100) + (second_key_of_ctr * 100)
-        if ctr[0] == 3:
+        if first_value_of_ctr == 3:
             if first_key_of_ctr == 1:
                 return 1000 + leftovers
             else:
                 return first_key_of_ctr * 100 + leftovers
-        return 0
+        return leftovers
 
 
 # Handle banking points
