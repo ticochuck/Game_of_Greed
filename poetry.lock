@@ -121,6 +121,17 @@ version = "0.13.1"
 dev = ["pre-commit", "tox"]
 
 [[package]]
+category = "main"
+description = "Pooling TLS Wrapper"
+name = "ptw"
+optional = false
+python-versions = ">=3.5.3"
+version = "1.0.0"
+
+[package.extras]
+uvloop = ["uvloop (>=0.11.0)"]
+
+[[package]]
 category = "dev"
 description = "library with cross-python path, ini-parsing, io, code, log facilities"
 name = "py"
@@ -227,7 +238,7 @@ python-versions = "*"
 version = "0.2.4"
 
 [metadata]
-content-hash = "52b990db93dba71317fe52df31f6e00a82ceb9323800beb38de30e9a251e43c0"
+content-hash = "99690c354efa071dc087e43ea7e7481ac1d2d262d8784c2bed447bc285aed9e8"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -276,6 +287,10 @@ pathtools = [
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
+]
+ptw = [
+    {file = "ptw-1.0.0-py3-none-any.whl", hash = "sha256:f0cddcf6166f9fe8eb7b7565ffc5c9f7cc94cb0a473fdb1a9ebf24aa8276c439"},
+    {file = "ptw-1.0.0.tar.gz", hash = "sha256:084e3869a8fa2cb1d127090133418033740581240d2718ef62b31ef88697455d"},
 ]
 py = [
     {file = "py-1.8.2-py2.py3-none-any.whl", hash = "sha256:a673fa23d7000440cc885c17dbd34fafcb7d7a6e230b29f6766400de36a33c44"},
