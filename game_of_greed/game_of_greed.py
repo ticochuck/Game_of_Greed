@@ -1,10 +1,16 @@
 import random
 from collections import Counter
 
+# Define a GameLogic class.
 class GameLogic:
     def __init__(self):
         pass
 
+# Handle rolling dice
+# Add roll_dice static method to GameLogic class.
+# The input to roll_dice is an integer between 1 and 6.
+# The output of roll_dice is a tuple with random values between 1 and 6.
+# The length of tuple must match the argument given to roll_dice method.
     @staticmethod
     def roll_dice(dice_count):
         running_total = []
@@ -15,6 +21,10 @@ class GameLogic:
         return tuple(running_total)
 
 
+# Handle calculating score for dice roll
+# Add calculate_score static method to GameLogic class.
+# The input to calculate_score is a tuple of integers that represent a dice roll.
+# The output from calculate_score is an integer representing the roll’s score according to rules of game.
     @staticmethod
     def calculate_score(dice_set):
         ctr = Counter(dice_set)
@@ -63,8 +73,21 @@ class GameLogic:
         return 0
 
 
+# Handle banking points
+# Define a Banker class
 class Banker:
     pass
+
+# Add a shelf instance method
+# Input to shelf is the amount of points (integer) to add to shelf.
+# shelf should temporarily store unbanked points.
+
+# Add a bank instance method
+# bank should add any points on the shelf to total and reset shelf to 0.
+# bank output should be the amount of points added to total from shelf.
+
+# Add a clear_shelf instance method
+# clear_shelf should remove all unbanked points.
 
 
 if __name__ == "__main__":
@@ -72,3 +95,4 @@ if __name__ == "__main__":
     # GameLogic.calculate_score((2,2,2,2,2,2))
     # GameLogic.calculate_score(GameLogic.roll_dice(6))
     GameLogic.calculate_score((1,1,1,5,5,5))
+    
