@@ -31,6 +31,7 @@ class GameLogic:
         first_key_of_ctr = list(ctr.most_common())[0][0]
         if len(ctr) >= 2:
             second_key_of_ctr = list(ctr.most_common())[1][0]
+            second_value_of_ctr = list(ctr.most_common())[1][1]
         first_value_of_ctr = list(ctr.most_common())[0][1]
         ones_score = 0
         fives_score = 0
@@ -44,12 +45,12 @@ class GameLogic:
             return 1500
         if len(ctr) == 3 and list(ctr.most_common())[2][1] == 2:
             return 1500
-        if len(ctr) == 1:
+        if first_value_of_ctr == 6:
             if first_key_of_ctr == 1:
                 return 4000 + leftovers
             else:
                 return first_key_of_ctr * 400 + leftovers
-        if len(ctr) == 2 and first_value_of_ctr == 5:
+        if first_value_of_ctr == 5:
             if first_key_of_ctr == 1:
                 return 3000 + leftovers
             else:
@@ -59,7 +60,7 @@ class GameLogic:
                 return 2000 + leftovers
             else:
                 return first_key_of_ctr * 200 + leftovers
-        if len(ctr) == 2 and first_value_of_ctr == 3:
+        if len(ctr) == 2 and second_value_of_ctr == 3:
             if first_key_of_ctr == 1:
                 return 1000 + (second_key_of_ctr * 100)
             elif second_key_of_ctr == 1:
@@ -74,42 +75,11 @@ class GameLogic:
         return leftovers
 
 
-# Handle banking points
-# Define a Banker class
-class Banker:
-
-    shelf_points = 0
-    bank_points = 0
-
-    def __init__(self):
-        pass
-
-    def shelf(self, points):
-        self.shelf_points += points
-
-    def bank(self):
-        self.bank_points += self.shelf_points
-        self.clear_shelf()
-
-    def clear_shelf(self):
-        self.shelf_points = 0
 
 
-# Add a shelf instance method
-# Input to shelf is the amount of points (integer) to add to shelf.
-# shelf should temporarily store unbanked points.
-
-# Add a bank instance method
-# bank should add any points on the shelf to total and reset shelf to 0.
-# bank output should be the amount of points added to total from shelf.
-
-# Add a clear_shelf instance method
-# clear_shelf should remove all unbanked points.
-
-
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # GameLogic.roll_dice(1)
     # GameLogic.calculate_score((2,2,2,2,2,2))
     # GameLogic.calculate_score(GameLogic.roll_dice(6))
-    GameLogic.calculate_score((1,1,1,5,5,5))
+    # GameLogic.calculate_score((1,1,1,5,5,5))
     
