@@ -1,11 +1,8 @@
 import pytest
 
 from game_of_greed import __version__
-from game_of_greed.game_of_greed import (
-    GameLogic,
-    Banker,
-)
-
+from game_of_greed.game_logic import GameLogic
+from game_of_greed.banker import Banker
 
 def test_version():
     assert __version__ == '0.1.0'
@@ -187,6 +184,7 @@ def test_calc_six_sixes():
 
 def test_calc_five_sixes():
     assert GameLogic.calculate_score((6,6,6,6,6,4)) == 1800
+    assert GameLogic.calculate_score((6,6,6,6,6)) == 1800
 
 
 def test_calc_four_sixes():
@@ -229,7 +227,9 @@ def test_two_triplets():
     assert GameLogic.calculate_score((2,2,2,4,4,4)) == 600
     assert GameLogic.calculate_score((6,6,6,5,5,5)) == 1100
     assert GameLogic.calculate_score((3,2,2,3,2,3)) == 500
-
+    assert GameLogic.calculate_score((3,2,2,2,3)) == 200
+    assert GameLogic.calculate_score((1,2,2,2,3)) == 300
+    assert GameLogic.calculate_score((2,2,2,3)) == 200
 
 # Testing - Banker
 # shelf should properly track unbanked points
