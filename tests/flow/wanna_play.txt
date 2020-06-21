@@ -1,0 +1,3 @@
+Hi, welcome to the game
+Would you like to play? Y/Nn
+Ok, maybe next time

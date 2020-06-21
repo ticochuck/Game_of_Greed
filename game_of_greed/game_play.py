@@ -1,21 +1,24 @@
-from game_logic import GameLogic
-from banker import Banker
+import sys
 from textwrap import dedent
+from game_of_greed.game_logic import GameLogic
+from game_of_greed.banker import Banker
 
 
-class GamePlay:
-    def __init__(self):
+class Game:
+    def __init__(self, roll_dice = None):
         self.remaining_dice = 6
         self.current_round = 1
 
+
     def welcome(self):
         print('Hi, welcome to the game')
-        start_game = input('would you like to play? Y/N \n').lower()
+        start_game = input('Would you like to play? Y/N').lower()
         if start_game == 'y':
             self.player_roll()
         else:
             print('Ok, maybe next time')
-            exit()
+            sys.exit()
+
 
     def player_roll(self):
         print(dedent(f"""
@@ -27,16 +30,15 @@ class GamePlay:
         dice_values = GameLogic.roll_dice(self.remaining_dice)
         print('Your roll ', dice_values)
 
-        select_dice = input('Which dice would you like to keep? Please enter the numbers separated by spaces \n')
+        select_dice = input('Please enter the dice you want to keep separated by spaces or (q)uit')
         dice_to_shelf = select_dice.split()
         dice_to_shelf = tuple(map(int, dice_to_shelf))
         
         points_to_bank = GameLogic.calculate_score(dice_to_shelf)
         banker.shelf(points_to_bank)
         
-        # roll_again, bank, quit
         self.remaining_dice -= len(dice_to_shelf)
-        user_choice = input("Would you like to Roll again ('R') or Bank your Points ('B') or Quit ('Q')? \n").lower()
+        user_choice = input("Would you like to Roll again ('R') or Bank your Points ('B') or Quit ('Q')?").lower()
         
         if user_choice == 'r':
             self.player_roll()
@@ -48,17 +50,18 @@ class GamePlay:
             self.current_round += 1
             self.player_roll()
 
-
-    def play_game(self):
-        pass
+    
+    def play(self):
+        self.welcome()
+        self.player_roll()
         
 
 if __name__ == '__main__':
-    new_game = GamePlay()
+    new_game = Game()
     banker = Banker()
-    new_game.welcome()
+    #new_game.welcome()
     new_game.play_game()
-    new_game.player_roll()
+    #new_game.player_roll()
     
     
     

@@ -3,9 +3,15 @@ import pytest
 from game_of_greed import __version__
 from game_of_greed.game_logic import GameLogic
 from game_of_greed.banker import Banker
+from game_of_greed.game_play import Game
+
 
 def test_version():
     assert __version__ == '0.1.0'
+
+
+def test_game_exist():
+    assert Game
 
 
 def test_gamelogic_exists():
