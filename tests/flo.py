@@ -1,21 +1,16 @@
 import builtins
-#from game_of_greed.game import Game
 from game_of_greed.game_play import Game
+from game_of_greed.game_logic import GameLogic
+
 
 class Flo:
 
-    # PROMPTS = (
-    #     "Wanna play?",
-    #     "(r)oll again, (b)ank your points or (q)uit ",
-    #     "Enter dice to keep (no spaces), or (q)uit: ",
-    # )
-
-
     PROMPTS = (
-        "Would you like to play? Y/N",
-        "Please enter the dice you want to keep separated by spaces or (q)uit",
-        "Would you like to Roll again ('R') or Bank your Points ('B') or Quit ('Q')?"
+        "Wanna play?",
+        "(r)oll again, (b)ank your points or (q)uit ",
+        "Enter dice to keep (no spaces), or (q)uit: ",
     )
+
 
     def __init__(self, path):
         self.path = path
@@ -52,8 +47,9 @@ class Flo:
 
         flo = Flo(path)
 
-        game = Game(flo._mock_roller)
-
+        #game = Game(flo._mock_roller)
+        #game = GameLogic.calculate_score(flo._mock_roller)
+        game = (flo._mock_roller)
         try:
 
             game.play()
@@ -105,5 +101,5 @@ class Flo:
 
 
 if __name__ == "__main__":
-    #Flo.start("tests/flow/bank_one_roll_then_quit.txt")
+    Flo.start("tests/flow/bank_one_roll_then_quit.txt")
     Flo.start("tests/flow/wanna_play.txt")
