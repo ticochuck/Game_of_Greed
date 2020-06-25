@@ -40,7 +40,6 @@ class Game:
                 dice_values_to_validate.remove(i)
             else:
                 print('Cheater!!! Or possibly made a typo...')
-                #print(dice_values)
                 return True
         
         return False
@@ -51,8 +50,6 @@ class Game:
         print(f"Rolling {self.remaining_dice} dice...")
           
         dice_values = GameLogic.roll_dice(self.remaining_dice)
-        
-        #print(dice_values)
         
         points_to_bank = GameLogic.calculate_score(dice_values)
         
@@ -72,6 +69,9 @@ class Game:
                 self.quit_game()
 
             dice_to_shelf = list(select_dice)
+
+            # check to make sure these are all integers
+
             dice_to_shelf = tuple(map(int, dice_to_shelf))
             
             cheat_check = Game.validation(dice_values, dice_to_shelf)
