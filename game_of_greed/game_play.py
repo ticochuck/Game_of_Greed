@@ -32,7 +32,19 @@ class Game:
 
     @staticmethod
     def validation(dice_values, dice_to_shelf):
+        dice_values_to_validate =  list(dice_values)
+        dice_to_shelf = list(dice_to_shelf)
+        
+        for i in dice_to_shelf:
+            if i in dice_values_to_validate:
+                dice_values_to_validate.remove(i)
+            else:
+                print('Cheater!!! Or possibly made a typo...')
+                #print(dice_values)
+                return True
+        
         return False
+        
 
     def player_roll(self):
         print(f"Starting round {self.current_round}")
@@ -40,12 +52,20 @@ class Game:
           
         dice_values = GameLogic.roll_dice(self.remaining_dice)
         
-        print(dice_values)
+        #print(dice_values)
         
+        points_to_bank = GameLogic.calculate_score(dice_values)
+        
+        if points_to_bank == 0:
+            print('Zilch!!! Round over')
+            print(f'You banked 0 points in round {self.current_round}')
+            banker.clear_shelf()
+            self.next_round()         
+            
         cheat_check = True
 
         while cheat_check:
-            
+            print(dice_values)
             select_dice = input("Enter dice to keep (no spaces), or (q)uit: ")
             
             if select_dice == 'q':
@@ -55,28 +75,20 @@ class Game:
             dice_to_shelf = tuple(map(int, dice_to_shelf))
             
             cheat_check = Game.validation(dice_values, dice_to_shelf)
-            #print(cheat_check)
-        # ctr_dice_values = Counter(dice_values)
-        # ctr_dice_to_shelf = Counter(dice_to_shelf)
-        # print(ctr_dice_to_shelf, ctr_dice_values)
-
-        
-
+          
         points_to_bank = GameLogic.calculate_score(dice_to_shelf)
         print(points_to_bank)
-        if points_to_bank == 0:
-            print('Zilch!!! Round over')
-            print(f'You banked 0 points in round {self.current_round}')
-            banker.clear_shelf()
-            self.next_round()         
         
         
         banker.shelf(points_to_bank)
         
         self.remaining_dice -= len(dice_to_shelf)
+        print(f'You have {banker.shelf_points} unbanked points and {self.remaining_dice} dice remaining')
         user_choice = input("(r)oll again, (b)ank your points or (q)uit ").lower()
         
         if user_choice == 'r':
+            if self.remaining_dice == 0:
+                self.remaining_dice = 6
             self.player_roll()
         
         elif user_choice == 'b':
