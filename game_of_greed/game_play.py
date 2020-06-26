@@ -31,24 +31,37 @@ class Game:
                 sys.exit()
 
     @staticmethod
+    # Also check that all dice are scoring dice
     def validation(dice_values, dice_to_shelf):
-        dice_values_to_validate =  list(dice_values)
-        dice_to_shelf = list(dice_to_shelf)
-        
+        dice_values_to_validate =  list(dice_values) #dice roll
+        dice_to_shelf = list(dice_to_shelf) #user input
+
         for i in dice_to_shelf:
             if i in dice_values_to_validate:
                 dice_values_to_validate.remove(i)
             else:
                 print('Cheater!!! Or possibly made a typo...')
                 return True
-        
+
+        ctr = Counter(dice_to_shelf)
+        if len(ctr) == 6:
+            return False
+        if len(ctr) == 3 and list(ctr.most_common())[2][1] == 2:
+            return False
+
+        for i in list(ctr.most_common()):
+            if i[0] == 2 or i[0] == 3 or i[0] == 4 or i[0] == 6:
+                if i[1] < 3:
+                    print('Cheater!!! Or possibly made a typo...')
+                    return True
+
         return False
-        
+
 
     def player_roll(self):
         print(f"Starting round {self.current_round}")
         print(f"Rolling {self.remaining_dice} dice...")
-          
+
         dice_values = GameLogic.roll_dice(self.remaining_dice)
         
         points_to_bank = GameLogic.calculate_score(dice_values)
@@ -70,7 +83,7 @@ class Game:
 
             dice_to_shelf = list(select_dice)
 
-            # check to make sure these are all integers
+            # check to make sure these are all integers -> Only if MVP 
 
             dice_to_shelf = tuple(map(int, dice_to_shelf))
             
@@ -87,8 +100,9 @@ class Game:
         user_choice = input("(r)oll again, (b)ank your points or (q)uit ").lower()
         
         if user_choice == 'r':
+            # this also handles hot dice according to the flow tests
             if self.remaining_dice == 0:
-                self.remaining_dice = 6
+                self.remaining_dice = 6 
             self.player_roll()
         
         elif user_choice == 'b':
