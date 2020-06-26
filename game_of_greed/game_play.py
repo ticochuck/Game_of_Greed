@@ -10,13 +10,11 @@ except:
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, fake_roll=None):
         self.remaining_dice = 6
         self.current_round = 1
 
-
     def welcome(self):
-        
         gameon = False
         while not gameon:
             print("Welcome to Game of Greed")
@@ -57,12 +55,13 @@ class Game:
 
         return False
 
-
-    def player_roll(self):
+    # remember self.fake_roll
+    def player_roll(self, dice_values=None):
         print(f"Starting round {self.current_round}")
         print(f"Rolling {self.remaining_dice} dice...")
 
-        dice_values = GameLogic.roll_dice(self.remaining_dice)
+        if dice_values is None:
+            dice_values = GameLogic.roll_dice(self.remaining_dice)
         
         points_to_bank = GameLogic.calculate_score(dice_values)
         
@@ -126,20 +125,15 @@ class Game:
         print(f"Total score is {banker.bank_points} points")
         print(f"Thanks for playing. You earned {banker.bank_points} points")
         sys.exit()
-    
+
     def play(self):
         self.welcome()
-        self.player_roll()
-    
+        # self.player_roll()
 
-        
 
 if __name__ == '__main__':
     new_game = Game()
     banker = Banker()
-    #new_game.welcome()
     new_game.play()
-    #new_game.player_roll()
-    
-    
-    
+
+

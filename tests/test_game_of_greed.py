@@ -278,4 +278,3 @@ def test_add_to_shelf():
 # should remove any unbanked points, resetting to zero.
 # should not affect previously banked points
 
-

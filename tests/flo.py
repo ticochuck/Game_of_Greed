@@ -47,11 +47,10 @@ class Flo:
 
         flo = Flo(path)
 
-        #game = Game(flo._mock_roller)
+        game = Game(flo._mock_roller)
         #game = GameLogic.calculate_score(flo._mock_roller)
-        game = (flo._mock_roller)
+        # game = (flo._mock_roller)
         try:
-
             game.play()
 
         except SystemExit:
@@ -101,5 +100,5 @@ class Flo:
 
 
 if __name__ == "__main__":
-    Flo.start("tests/flow/bank_one_roll_then_quit.txt")
+    # Flo.start("tests/flow/bank_one_roll_then_quit.txt")
     Flo.start("tests/flow/wanna_play.txt")
