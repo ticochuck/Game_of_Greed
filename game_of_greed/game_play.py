@@ -10,9 +10,10 @@ except:
 
 
 class Game:
-    def __init__(self, fake_roll=None):
+    def __init__(self, dice_values=None):
         self.remaining_dice = 6
         self.current_round = 1
+        self.dice_values = dice_values
 
     def welcome(self):
         gameon = False
@@ -56,13 +57,17 @@ class Game:
         return False
 
     # remember self.fake_roll
-    def player_roll(self, dice_values=None):
+    def player_roll(self):
         print(f"Starting round {self.current_round}")
         print(f"Rolling {self.remaining_dice} dice...")
 
-        if dice_values is None:
+        if self.dice_values is None:
             dice_values = GameLogic.roll_dice(self.remaining_dice)
-        
+        else:
+            dice_values = self.dice_values
+            print("the dice_values are ", dice_values)
+
+
         points_to_bank = GameLogic.calculate_score(dice_values)
         
         if points_to_bank == 0:
