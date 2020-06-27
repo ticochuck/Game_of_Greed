@@ -79,7 +79,10 @@ class Game:
         cheat_check = True
 
         while cheat_check:
-            print(dice_values)
+            roll_display = ""
+            for x in range(len(dice_values)):
+                roll_display += str(dice_values[x]) + ","
+            print(roll_display[:-1])
             select_dice = input("Enter dice to keep (no spaces), or (q)uit: ")
             
             if select_dice == 'q':
