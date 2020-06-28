@@ -9,11 +9,15 @@ except:
     from banker import Banker
 
 
+
 class Game:
-    def __init__(self, dice_values=None):
+    def __init__(self, dice_roller=None):
         self.remaining_dice = 6
         self.current_round = 1
-        self.dice_values = dice_values
+        if dice_roller:
+            self.dice_roller = dice_roller
+        else:
+            self.dice_roller = GameLogic.roll_dice
 
     def welcome(self):
         gameon = False
@@ -61,12 +65,9 @@ class Game:
         print(f"Starting round {self.current_round}")
         print(f"Rolling {self.remaining_dice} dice...")
 
-        if self.dice_values is None:
-            dice_values = GameLogic.roll_dice(self.remaining_dice)
-        else:
-            dice_values = self.dice_values
-            print("the dice_values are ", dice_values)
-
+        dice_values = self.dice_roller(self.remaining_dice)
+            # hold a value or roll to be used in instantiation, then reference the roller in the rest of hte code based on that property
+            #
 
         points_to_bank = GameLogic.calculate_score(dice_values)
         
@@ -79,7 +80,11 @@ class Game:
         cheat_check = True
 
         while cheat_check:
-            print(dice_values)
+            roll_display = ""
+            for x in range(len(dice_values)):
+                roll_display += str(dice_values[x]) + ","
+            print(roll_display[:-1])
+
             select_dice = input("Enter dice to keep (no spaces), or (q)uit: ")
             
             if select_dice == 'q':
