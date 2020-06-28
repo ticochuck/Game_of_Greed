@@ -46,10 +46,12 @@ class Flo:
     def test(path):
 
         flo = Flo(path)
+        print(flo.rolls)    # REMOVE
 
+        # flo.old_print(flo._mock_roller()) # REMOVE
         game = Game(flo._mock_roller)
-        #game = GameLogic.calculate_score(flo._mock_roller)
-        # game = (flo._mock_roller)
+        # print("flo.rolls type is ", type(flo._mock_roller))    # REMOVE
+        # game = Game(tuple(flo.rolls))    # REMOVE
         try:
             game.play()
 
@@ -60,8 +62,10 @@ class Flo:
             flo._exit()
         
 
-    def _mock_roller(self, num):
+    def _mock_roller(self):    # TEST COPY
         return self.rolls.pop(0)
+    # def _mock_roller(self, num):
+    #     return self.rolls.pop(0)
 
     def _mock_print(self, *args, **kwargs):
 
@@ -100,5 +104,5 @@ class Flo:
 
 
 if __name__ == "__main__":
-    # Flo.start("tests/flow/bank_one_roll_then_quit.txt")
     Flo.start("tests/flow/wanna_play.txt")
+    Flo.start("tests/flow/bank_one_roll_then_quit.txt")
