@@ -1,4 +1,4 @@
-import sys
+import sys, pdb
 from collections import Counter
 from textwrap import dedent
 try:
@@ -14,6 +14,7 @@ class Game:
         self.remaining_dice = 6
         self.current_round = 1
         self.dice_values = dice_values
+        self.banker = Banker()
 
     def welcome(self):
         gameon = False
@@ -33,7 +34,7 @@ class Game:
     # Also check that all dice are scoring dice
     def validation(dice_values, dice_to_shelf):
         dice_values_to_validate =  list(dice_values) #dice roll
-        dice_to_shelf = list(dice_to_shelf) #user input
+        dice_to_shelf = dice_to_shelf #user input
 
         for i in dice_to_shelf:
             if i in dice_values_to_validate:
@@ -65,7 +66,7 @@ class Game:
             dice_values = GameLogic.roll_dice(self.remaining_dice)
         else:
             dice_values = self.dice_values
-            print("the dice_values are ", dice_values)
+            # print("the dice_values are ", dice_values)    # REMOVE
 
 
         points_to_bank = GameLogic.calculate_score(dice_values)
@@ -73,34 +74,44 @@ class Game:
         if points_to_bank == 0:
             print('Zilch!!! Round over')
             print(f'You banked 0 points in round {self.current_round}')
-            banker.clear_shelf()
+            self.banker.clear_shelf()
             self.next_round()         
             
         cheat_check = True
 
         while cheat_check:
-            print(dice_values)
+            roll_display = ""
+            for x in range(len(dice_values)):
+                roll_display += str(dice_values[x]) + ","
+            print(roll_display[:-1])
             select_dice = input("Enter dice to keep (no spaces), or (q)uit: ")
+            print("Nellie's: ", select_dice)    # REMOVE
             
             if select_dice == 'q':
                 self.quit_game()
 
-            dice_to_shelf = list(select_dice)
+            # dice_to_shelf = list(select_dice) # ORIG
+            # dice_selected = list(select_dice)
+            dice_selected = select_dice
 
             # check to make sure these are all integers -> Only if MVP 
-
-            dice_to_shelf = tuple(map(int, dice_to_shelf))
+            # dice_to_shelf = tuple(map(int, dice_to_shelf))
+            dice_selected = tuple(dice_selected)
+            # dice_to_shelf = (map(int, dice_to_shelf))
             
-            cheat_check = Game.validation(dice_values, dice_to_shelf)
+            cheat_check = False
+            # cheat_check = Game.validation(dice_values, dice_to_shelf)
           
-        points_to_bank = GameLogic.calculate_score(dice_to_shelf)
-        print(points_to_bank)
+        # points_to_bank = GameLogic.calculate_score(dice_to_shelf)
+        points_to_bank = GameLogic.calculate_score(dice_selected)
+        print(str(points_to_bank))
         
         
-        banker.shelf(points_to_bank)
+        self.banker.shelf(points_to_bank)
         
-        self.remaining_dice -= len(dice_to_shelf)
-        print(f'You have {banker.shelf_points} unbanked points and {self.remaining_dice} dice remaining')
+        # self.remaining_dice -= len(dice_to_shelf)
+        self.remaining_dice -= len(dice_selected)
+        print(f'You have {self.banker.shelf_points} unbanked points and {self.remaining_dice} dice remaining')
         user_choice = input("(r)oll again, (b)ank your points or (q)uit ").lower()
         
         if user_choice == 'r':
@@ -110,8 +121,8 @@ class Game:
             self.player_roll()
         
         elif user_choice == 'b':
-            banker.bank()
-            print('Your Banked Points: ', banker.bank_points)
+            self.banker.bank()
+            print('Your Banked Points: ', self.banker.bank_points)
             self.next_round()
         
         elif user_choice == 'q':
@@ -127,8 +138,8 @@ class Game:
             self.quit_game()
 
     def quit_game(self):
-        print(f"Total score is {banker.bank_points} points")
-        print(f"Thanks for playing. You earned {banker.bank_points} points")
+        print(f"Total score is {self.banker.bank_points} points")
+        print(f"Thanks for playing. You earned {self.banker.bank_points} points")
         sys.exit()
 
     def play(self):

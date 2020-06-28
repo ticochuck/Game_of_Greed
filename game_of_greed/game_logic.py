@@ -21,6 +21,28 @@ class GameLogic:
         return tuple(running_total)
 
 
+    @staticmethod
+    def get_scorers(dice_values):
+        scorers = []
+        return_scorers = []
+        ctr = Counter(dice_values)
+        if len(ctr) == 6:
+            scorers = list(dice_values)
+            return scorers
+        if len(ctr) == 3 and list(ctr.most_common())[2][1] == 2:
+            scorers = list(dice_values)
+            return scorers
+        for i in list(ctr.most_common()):
+            if i[0] == 1 or i[0] == 5:
+                scorers.append(i)
+            if i[0] == 2 or i[0] == 3 or i[0] == 4 or i[0] == 6:
+                if i[1] >= 3:
+                    scorers.append(i)
+        for i in scorers:
+            for j in range(i[1]):
+                return_scorers.append(i[0])
+        return return_scorers
+
 # Handle calculating score for dice roll
 # Add calculate_score static method to GameLogic class.
 # The input to calculate_score is a tuple of integers that represent a dice roll.
@@ -28,7 +50,7 @@ class GameLogic:
     @staticmethod
     def calculate_score(dice_set):
         ctr = Counter(dice_set)
-        first_key_of_ctr = list(ctr.most_common())[0][0]
+        first_key_of_ctr = int(list(ctr.most_common())[0][0])
         if len(ctr) >= 2:
             second_key_of_ctr = list(ctr.most_common())[1][0]
             second_value_of_ctr = list(ctr.most_common())[1][1]
@@ -71,7 +93,7 @@ class GameLogic:
             if first_key_of_ctr == 1:
                 return 1000 + leftovers
             else:
-                return first_key_of_ctr * 100 + leftovers
+                return (first_key_of_ctr * 100) + leftovers
         return leftovers
 
 
