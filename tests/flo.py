@@ -60,7 +60,10 @@ class Flo:
             flo._exit()
         
 
+# replace rolling method, not work with it
+# if mock roller passed in, it uses it instead of standard mock roller
     def _mock_roller(self, num):
+        # print("self.rolls inside _mock_roller is: ", self.rolls)
         return self.rolls.pop(0)
 
     def _mock_print(self, *args, **kwargs):
@@ -100,5 +103,5 @@ class Flo:
 
 
 if __name__ == "__main__":
-    # Flo.start("tests/flow/bank_one_roll_then_quit.txt")
+    Flo.start("tests/flow/bank_one_roll_then_quit.txt")
     Flo.start("tests/flow/wanna_play.txt")
