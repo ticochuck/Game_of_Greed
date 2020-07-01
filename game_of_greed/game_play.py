@@ -14,6 +14,7 @@ class Game:
     def __init__(self, dice_roller=None):
         self.remaining_dice = 6
         self.current_round = 1
+        self.banker = Banker()
         if dice_roller:
             self.dice_roller = dice_roller
         else:
@@ -26,6 +27,7 @@ class Game:
             start_game = input("Wanna play?").lower()
             if start_game == 'y':
                 gameon = True
+                print(f"Starting round {self.current_round}")
                 self.player_roll()
 
             elif start_game == 'n':
@@ -62,7 +64,6 @@ class Game:
 
     # remember self.fake_roll
     def player_roll(self):
-        print(f"Starting round {self.current_round}")
         print(f"Rolling {self.remaining_dice} dice...")
 
         dice_values = self.dice_roller(self.remaining_dice)
@@ -72,9 +73,14 @@ class Game:
         points_to_bank = GameLogic.calculate_score(dice_values)
         
         if points_to_bank == 0:
+            roll_display = ""
+            for x in range(len(dice_values)):
+                roll_display += str(dice_values[x]) + ","
+            print(roll_display[:-1])
             print('Zilch!!! Round over')
             print(f'You banked 0 points in round {self.current_round}')
-            banker.clear_shelf()
+            print(f'Total score is {self.banker.bank_points} points')
+            self.banker.clear_shelf()
             self.next_round()         
             
         cheat_check = True
@@ -99,13 +105,13 @@ class Game:
             cheat_check = Game.validation(dice_values, dice_to_shelf)
           
         points_to_bank = GameLogic.calculate_score(dice_to_shelf)
-        print(points_to_bank)
+        # print(points_to_bank)
         
         
-        banker.shelf(points_to_bank)
+        self.banker.shelf(points_to_bank)
         
         self.remaining_dice -= len(dice_to_shelf)
-        print(f'You have {banker.shelf_points} unbanked points and {self.remaining_dice} dice remaining')
+        print(f'You have {self.banker.shelf_points} unbanked points and {self.remaining_dice} dice remaining')
         user_choice = input("(r)oll again, (b)ank your points or (q)uit ").lower()
         
         if user_choice == 'r':
@@ -115,8 +121,9 @@ class Game:
             self.player_roll()
         
         elif user_choice == 'b':
-            banker.bank()
-            print('Your Banked Points: ', banker.bank_points)
+            print(f'You banked {self.banker.shelf_points} points in round {self.current_round}')
+            self.banker.bank()
+            print(f'Total score is {self.banker.bank_points} points')
             self.next_round()
         
         elif user_choice == 'q':
@@ -126,24 +133,25 @@ class Game:
         self.remaining_dice = 6
         self.current_round += 1
         if self.current_round <= 20:
+            print(f"Starting round {self.current_round}")
             self.player_roll()
         else:
             print('Game over')
             self.quit_game()
 
     def quit_game(self):
-        print(f"Total score is {banker.bank_points} points")
-        print(f"Thanks for playing. You earned {banker.bank_points} points")
+        print(f"Total score is {self.banker.bank_points} points")
+        print(f"Thanks for playing. You earned {self.banker.bank_points} points")
         sys.exit()
 
     def play(self):
         self.welcome()
-        # self.player_roll()
+
 
 
 if __name__ == '__main__':
     new_game = Game()
-    banker = Banker()
+    # banker = Banker()
     new_game.play()
 
 
