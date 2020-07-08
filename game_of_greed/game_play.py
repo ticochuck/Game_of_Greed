@@ -9,7 +9,6 @@ except:
     from banker import Banker
 
 
-
 class Game:
     def __init__(self, dice_roller=None):
         self.remaining_dice = 6
@@ -62,14 +61,11 @@ class Game:
 
         return False
 
-    # remember self.fake_roll
+
     def player_roll(self):
         print(f"Rolling {self.remaining_dice} dice...")
 
         dice_values = self.dice_roller(self.remaining_dice)
-            # hold a value or roll to be used in instantiation, then reference the roller in the rest of hte code based on that property
-            #
-
         points_to_bank = GameLogic.calculate_score(dice_values)
         
         if points_to_bank == 0:
@@ -82,50 +78,39 @@ class Game:
             print(f'Total score is {self.banker.bank_points} points')
             self.banker.clear_shelf()
             self.next_round()         
-            
-        cheat_check = True
 
+        cheat_check = True
         while cheat_check:
             roll_display = ""
             for x in range(len(dice_values)):
                 roll_display += str(dice_values[x]) + ","
             print(roll_display[:-1])
-
             select_dice = input("Enter dice to keep (no spaces), or (q)uit: ")
-            
             if select_dice == 'q':
                 self.quit_game()
-
             dice_to_shelf = list(select_dice)
-
-            # check to make sure these are all integers -> Only if MVP 
-
             dice_to_shelf = tuple(map(int, dice_to_shelf))
-            
             cheat_check = Game.validation(dice_values, dice_to_shelf)
-          
+
+
         points_to_bank = GameLogic.calculate_score(dice_to_shelf)
-        # print(points_to_bank)
-        
-        
         self.banker.shelf(points_to_bank)
-        
         self.remaining_dice -= len(dice_to_shelf)
         print(f'You have {self.banker.shelf_points} unbanked points and {self.remaining_dice} dice remaining')
         user_choice = input("(r)oll again, (b)ank your points or (q)uit ").lower()
-        
+
         if user_choice == 'r':
             # this also handles hot dice according to the flow tests
             if self.remaining_dice == 0:
                 self.remaining_dice = 6 
             self.player_roll()
-        
+
         elif user_choice == 'b':
             print(f'You banked {self.banker.shelf_points} points in round {self.current_round}')
             self.banker.bank()
             print(f'Total score is {self.banker.bank_points} points')
             self.next_round()
-        
+
         elif user_choice == 'q':
             self.quit_game()
 
@@ -136,8 +121,8 @@ class Game:
             print(f"Starting round {self.current_round}")
             self.player_roll()
         else:
-            print('Game over')
-            self.quit_game()
+            # print('Game over')
+            print(f"Thanks for playing. You earned {self.banker.bank_points} points")
 
     def quit_game(self):
         print(f"Total score is {self.banker.bank_points} points")
@@ -148,10 +133,8 @@ class Game:
         self.welcome()
 
 
-
 if __name__ == '__main__':
     new_game = Game()
-    # banker = Banker()
     new_game.play()
 
 

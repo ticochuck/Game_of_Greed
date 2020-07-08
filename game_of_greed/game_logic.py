@@ -21,14 +21,41 @@ class GameLogic:
         return tuple(running_total)
 
 
+    @staticmethod
+    def get_scorers(dice_values):
+        scorers = []
+        return_scorers = []
+        ctr = Counter(dice_values)
+        if len(ctr) == 6:
+            scorers = list(dice_values)
+            return scorers
+        if len(ctr) == 3 and list(ctr.most_common())[2][1] == 2:
+            scorers = list(dice_values)
+            return scorers
+        for i in list(ctr.most_common()):
+            if i[0] == 1 or i[0] == 5:
+                scorers.append(i)
+            if i[0] == 2 or i[0] == 3 or i[0] == 4 or i[0] == 6:
+                if i[1] >= 3:
+                    scorers.append(i)
+        for i in scorers:
+            for j in range(i[1]):
+                return_scorers.append(i[0])
+        return return_scorers
+
+
 # Handle calculating score for dice roll
 # Add calculate_score static method to GameLogic class.
 # The input to calculate_score is a tuple of integers that represent a dice roll.
 # The output from calculate_score is an integer representing the roll's score according to rules of game.
     @staticmethod
     def calculate_score(dice_set):
+        if len(dice_set) == 0:
+            return 0
         ctr = Counter(dice_set)
+        # print(f"the ctr variable is: {ctr}")
         first_key_of_ctr = list(ctr.most_common())[0][0]
+        # print(f"the first_key_of_ctr is: {first_key_of_ctr}")
         if len(ctr) >= 2:
             second_key_of_ctr = list(ctr.most_common())[1][0]
             second_value_of_ctr = list(ctr.most_common())[1][1]
@@ -75,11 +102,9 @@ class GameLogic:
         return leftovers
 
 
-
-
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # GameLogic.roll_dice(1)
     # GameLogic.calculate_score((2,2,2,2,2,2))
     # GameLogic.calculate_score(GameLogic.roll_dice(6))
     # GameLogic.calculate_score((1,1,1,5,5,5))
-    
+    print(GameLogic.get_scorers((3,3,2,2,4,6)))
